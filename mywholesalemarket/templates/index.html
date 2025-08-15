@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to My Wholesale Market{% endblock %}
+
+{% block content %}
+    <style>
+        .hero { text-align: center; padding: 40px 20px; background-color: #ffffff; border-radius: 8px; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 15px; color: #343a40; }
+        .hero p { font-size: 1.2rem; color: #6c757d; max-width: 700px; margin: 0 auto 30px auto; }
+        .cta-buttons { margin-top: 20px; }
+        .cta-buttons a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #007bff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            margin: 0 10px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .cta-buttons a:hover {
+            background-color: #0056b3;
+        }
+        .cta-buttons a.secondary {
+            background-color: #6c757d;
+        }
+        .cta-buttons a.secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
+
+    <div class="hero">
+        <h1>Find Wholesale Prices, Instantly.</h1>
+        <p>My Wholesale Market is your direct route to discovering the best wholesale prices and suppliers in the UAE. Register for free to unlock access to our database of 2,000 suppliers and 20,000 SKUs.</p>
+
+        {% if not current_user.is_authenticated %}
+        <div class="cta-buttons">
+            <a href="{{ url_for('register') }}">Get Started for Free</a>
+            <a href="{{ url_for('login') }}" class="secondary">Member Login</a>
+        </div>
+        {% else %}
+        <div class="cta-buttons">
+            <a href="{{ url_for('dashboard') }}">Go to Your Dashboard</a>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

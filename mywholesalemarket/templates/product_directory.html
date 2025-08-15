@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Product Directory - My Wholesale Market{% endblock %}
+
+{% block content %}
+<h2 class="directory-title">Product Directory</h2>
+<div class="product-grid" id="product-grid">
+    <!-- Product tiles will be dynamically inserted here by JavaScript -->
+</div>
+
+<div class="load-more-container" id="load-more-container">
+    <div class="loader" id="loader"></div>
+    <button id="load-more-btn" style="display: none;">Load More Products</button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const productGrid = document.getElementById('product-grid');
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const loader = document.getElementById('loader');
+        const loadMoreContainer = document.getElementById('load-more-container');
+
+        let currentPage = 1;
+        let isLoading = false;
+        let totalPages = 1;
+
+        async function fetchProducts() {
+            if (isLoading || currentPage > totalPages) return;
+
+            isLoading = true;
+            loader.style.display = 'block';
+            loadMoreBtn.style.display = 'none';
+
+            try {
+                const response = await fetch(`/api/products?page=${currentPage}&per_page=30`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                totalPages = data.total_pages;
+                renderProducts(data.products);
+
+                if (data.has_next) {
+                    currentPage++;
+                    loadMoreBtn.style.display = 'block';
+                } else {
+                    loadMoreContainer.innerHTML = '<p>End of results.</p>';
+                }
+            } catch (error) {
+                console.error("Failed to fetch products:", error);
+                loadMoreContainer.innerHTML = `<p style="color: red;">Error loading products. Please try refreshing the page.</p>`;
+            } finally {
+                isLoading = false;
+                loader.style.display = 'none';
+            }
+        }
+
+        function renderProducts(products) {
+            if (products.length === 0 && currentPage === 1) {
+                productGrid.innerHTML = '<p>No products found in the database.</p>';
+                return;
+            }
+
+            products.forEach(product => {
+                const tile = document.createElement('div');
+                tile.className = 'product-tile';
+                tile.innerHTML = `
+                    <div class="code">IMPA ${product.impa_code}</div>
+                    <div class="description">${product.description}</div>
+                    <div class="category">${product.category}</div>
+                `;
+                productGrid.appendChild(tile);
+            });
+        }
+
+        // Use Intersection Observer for infinite scrolling
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                fetchProducts();
+            }
+        }, {
+            rootMargin: '0px 0px 400px 0px' // Fetch when the trigger is 400px from the viewport bottom
+        });
+
+        observer.observe(loadMoreContainer);
+
+        // Initial load
+        fetchProducts();
+    });
+</script>
+{% endblock %}
