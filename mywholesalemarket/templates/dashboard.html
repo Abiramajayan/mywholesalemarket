@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - My Wholesale Market{% endblock %}
+
+{% block content %}
+    <h2>Wholesale Price Dashboard</h2>
+    <p>Welcome, <strong>{{ current_user.username }}</strong>! Here is the current list of wholesale products and suppliers.</p>
+
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 2px 4px rgba(0,0,0,.1); }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        thead { background-color: #e9ecef; }
+        th { font-weight: 600; }
+        tbody tr:nth-child(odd) { background-color: #f8f9fa; }
+        tbody tr:hover { background-color: #f1f3f5; }
+    </style>
+
+    <table>
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Product Name</th>
+                <th>Supplier</th>
+                <th>Price (AED)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.SKU }}</td>
+                <td>{{ product.ProductName }}</td>
+                <td>{{ product.Supplier }}</td>
+                <td>{{ "%.2f"|format(product.Price_AED|float) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
