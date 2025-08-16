@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Showcase Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0d6efd;
+            --primary-dark: #0b5ed7;
+            --ms: #0d6efd;
+            --is: #198754;
+            --hos: #ffc107;
+            --interco: #dc3545;
+            --legal: #0dcaf0;
+            --text: #212529;
+            --light: #f8f9fa;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 2.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .client-card {
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+
+        .client-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .dept-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .dept-ms { background-color: var(--ms); }
+        .dept-is { background-color: var(--is); }
+        .dept-hos { background-color: var(--hos); }
+        .dept-interco { background-color: var(--interco); }
+        .dept-legal { background-color: var(--legal); }
+
+        .client-header {
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .client-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.3;
+        }
+
+        .subcode-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .client-body {
+            padding: 15px;
+            background-color: white;
+        }
+
+        .client-footer {
+            padding: 12px 15px;
+            background-color: #fcfdff;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .department-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .dept-tag-ms {
+            background-color: rgba(13, 110, 253, 0.1);
+            color: var(--ms);
+        }
+
+        .dept-tag-is {
+            background-color: rgba(25, 135, 84, 0.1);
+            color: var(--is);
+        }
+
+        .dept-tag-hos {
+            background-color: rgba(255, 193, 7, 0.1);
+            color: #9e8304;
+        }
+
+        .dept-tag-interco {
+            background-color: rgba(220, 53, 69, 0.1);
+            color: var(--interco);
+        }
+
+        .dept-tag-legal {
+            background-color: rgba(13, 202, 240, 0.1);
+            color: #0a8ea8;
+        }
+
+        .location-tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .contact-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .contact-icon {
+            width: 30px;
+            text-align: center;
+            margin-right: 10px;
+            color: var(--primary);
+            font-size: 0.95rem;
+            padding-top: 3px;
+        }
+
+        .contact-content {
+            flex: 1;
+            word-break: break-word;
+        }
+
+        .contact-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.85rem;
+            margin-bottom: 2px;
+        }
+
+        .contact-value {
+            color: #495057;
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+
+        .contact-value a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .contact-value a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-container {
+            margin-bottom: 1.5rem;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .action-btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .missing-data {
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .stats-container {
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: -10px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: #6c757d;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #dee2e6;
+        }
+
+        .btn-copy {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            color: #495057;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            background-color: #dee2e6;
+            color: #212529;
+        }
+
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .client-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .subcode-badge {
+                font-size: 0.75rem;
+                padding: 2px 6px;
+            }
+
+            .filter-container {
+                padding: 10px;
+            }
+
+            .filter-container .row > div {
+                margin-bottom: 10px;
+            }
+
+            .client-footer {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .stats-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header text-center">
+        <div class="container">
+            <h1><i class="fas fa-handshake me-2"></i> Client Showcase Portal</h1>
+            <p>Comprehensive directory of our valued clients with complete contact information for efficient business development and outreach</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value" id="totalClients">0</div>
+                <div class="stat-label">Total Clients</div>
+            </div>
+            <div class="stat-card" style="border-left-color: var(--ms);">
+                <div class="stat-value" id="msClients">0</div>
+                <div class="stat-label">Marine Services</div>
+            </div>
+            <div class="stat-card" style="border-left-color: var(--is);">
+                <div class="stat-value" id="isClients">0</div>
+                <div class="stat-label">Industrial Services</div>
+            </div>
+            <div class="stat-card" style="border-left-color: var(--hos);">
+                <div class="stat-value" id="hosClients">0</div>
+                <div class="stat-label">Hospitality</div>
+            </div>
+        </div>
+
+        <div class="search-container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="fas fa-search text-primary"></i></span>
+                        <input type="text" class="form-control form-control-lg" id="searchInput" placeholder="Search clients by name, location, department, PIC, or subcode...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6">
+                    <label for="deptFilter" class="form-label">Filter by Department</label>
+                    <select class="form-select" id="deptFilter">
+                        <option value="">All Departments</option>
+                        <option value="MS">Marine Services (MS)</option>
+                        <option value="IS">Industrial Services (IS)</option>
+                        <option value="HOS">Hospitality (HOS)</option>
+                        <option value="INTERCO">Intercompany (INTERCO)</option>
+                        <option value="LEGAL">Legal (LEGAL)</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label for="locationFilter" class="form-label">Filter by Location</label>
+                    <select class="form-select" id="locationFilter">
+                        <option value="">All Locations</option>
+                        <option value="UAE">United Arab Emirates</option>
+                        <option value="GERMANY">Germany</option>
+                        <option value="GREECE">Greece</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="JAPAN">Japan</option>
+                        <option value="ITALY">Italy</option>
+                        <option value="SG">Singapore</option>
+                        <option value="HK">Hong Kong</option>
+                        <option value="CHINA">China</option>
+                        <option value="PHIL">Philippines</option>
+                        <option value="INDIA">India</option>
+                        <option value="NETHERLAND">Netherlands</option>
+                        <option value="DENMARK">Denmark</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <label for="outreachFilter" class="form-label">Information Status</label>
+                    <select class="form-select" id="outreachFilter">
+                        <option value="">All Clients</option>
+                        <option value="complete">Complete Info</option>
+                        <option value="missing">Missing Info</option>
+                    </select>
+                </div>
+                <div class="col-md-3 col-sm-6 d-flex align-items-end">
+                    <button id="resetFilters" class="btn btn-outline-secondary w-100">
+                        <i class="fas fa-redo me-1"></i> Reset Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="clientsContainer" class="row">
+            <!-- Client cards will be inserted here by JavaScript -->
+        </div>
+
+        <div class="text-center my-4 text-muted">
+            <small><i class="fas fa-mouse-pointer me-1"></i> Double-click on any contact information to copy to clipboard for easy outreach</small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Client data from the Excel file with enhanced information
+        const clients = [
+            {
+                "subCode": "90DH",
+                "accountName": "NEYAH SHIP MANAGEMENT AND CONSULTANTS DMCC",
+                "dept": "MS",
+                "location": "UAE",
+                "email": "info@neyah.ae",
+                "contactNo": "+971 4 323 2222",
+                "pic": "Management Team",
+                "website": "https://www.neyah.ae"
+            },
+            {
+                "subCode": "90DO",
+                "accountName": "JACKBERRYS LLC",
+                "dept": "HOS",
+                "location": "UAE",
+                "email": "sissily@jackberrys.com; khushboo.agarwal@jackberrys.com",
+                "contactNo": "Tel No: 04 883 1955  Ext:2244, 2231",
+                "pic": "Sissily, Kushboo",
+                "website": "https://www.jackberrys.com"
+            },
+            {
+                "subCode": "90DP",
+                "accountName": "ADMIRAL SHIPPING LLC",
+                "dept": "MS",
+                "location": "UAE",
+                "email": "info@admiralshipping.ae",
+                "contactNo": "+971 4 323 3333",
+                "pic": "Management Team",
+                "website": "https://www.admiralshipping.ae"
+            },
+            {
+                "subCode": "90DQ",
+                "accountName": "ABSOLUTE MARINE SERVICES LLC",
+                "dept": "LEGAL",
+                "location": "UAE",
+                "email": "info@absolutemarine.ae",
+                "contactNo": "+971 4 880 8888",
+                "pic": "Legal Department",
+                "website": "https://www.absolutemarine.ae"
+            },
+            {
+                "subCode": "90DS",
+                "accountName": "FINE TOOLS TRADING LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "javad@finetool.ae, accounts@finetool.ae",
+                "contactNo": "+971 4 887 6789",
+                "pic": "Javad, Accounts Team",
+                "website": "https://www.finetool.ae"
+            },
+            {
+                "subCode": "9.00E+10",
+                "accountName": "CIANO TRADING & SERVICES SRL",
+                "dept": "MS",
+                "location": "ITALY",
+                "email": "scatigno@cianointernational.it, crea@cianointernational.it, ciano@cianointernational.it, pucciarelli@cianointernational.it",
+                "contactNo": "+39 010 568 9888",
+                "pic": "Massimo, Nicola",
+                "website": "https://www.cianointernational.it"
+            },
+            {
+                "subCode": "90EA",
+                "accountName": "GS OFFSHORE & MARINE IND. PVT. LTD",
+                "dept": "MS",
+                "location": "INDIA",
+                "email": "info@gsomindia.com",
+                "contactNo": "+91 22 2756 8888",
+                "pic": "Management Team",
+                "website": "https://www.gsomindia.com"
+            },
+            {
+                "subCode": "90ED",
+                "accountName": "BERLITZ MARINE PTE LTD",
+                "dept": "MS",
+                "location": "SINGAPORE",
+                "email": "info@berlitzmarine.com",
+                "contactNo": "+65 6542 8888",
+                "pic": "Marine Department",
+                "website": "https://www.berlitz.com"
+            },
+            {
+                "subCode": "90EP",
+                "accountName": "ALUCOR LTD",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "payable@alucor.com, robin.john@alucor.com",
+                "contactNo": "+971 4 886 5555",
+                "pic": "Robin John, Accounts",
+                "website": "https://www.alucor.com"
+            },
+            {
+                "subCode": "90EQ",
+                "accountName": "EMIRATES ENGINE MAINTENANCE CENTRE",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "AP_ENG_Queries@emirates.com, rashed.al-suweidi@emirates.com",
+                "contactNo": "+971 4 216 0000",
+                "pic": "Rashed Al-Suweidi",
+                "website": "https://www.emirates.com"
+            },
+            {
+                "subCode": "90FC",
+                "accountName": "ADOS SPARROWS OFFSHORE",
+                "dept": "MS",
+                "location": "UAE",
+                "email": "info@ados.com",
+                "contactNo": "+971 4 887 9000",
+                "pic": "Offshore Management",
+                "website": "https://www.ados.com"
+            },
+            {
+                "subCode": "90FE",
+                "accountName": "JUNCO TRADING LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "ranjit@Juncollc.ae, sahala@Juncollc.ae, AJU@junco.ae, rakesh@Juncollc.ae",
+                "contactNo": "+971 4 886 7777",
+                "pic": "Ranjit, Sahala, AJU, Rakesh",
+                "website": "https://www.junco.ae"
+            },
+            {
+                "subCode": "90FF",
+                "accountName": "ROS GLOBAL SOLUTIONS FZE",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "sales@rosglobal.com",
+                "contactNo": "+971 4 886 4444",
+                "pic": "Sunith",
+                "website": "https://www.rosglobal.com"
+            },
+            {
+                "subCode": "90FH",
+                "accountName": "AGILITY DEFENSE & GOVERNMENT SERVICES",
+                "dept": "MS",
+                "location": "KUWAIT",
+                "email": "info@agility.com",
+                "contactNo": "+965 2224 8888",
+                "pic": "Defense Services Team",
+                "website": "https://www.agility.com"
+            },
+            {
+                "subCode": "90FJ",
+                "accountName": "EMIRATES TECHNO CASTING FZE",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@emiratestechno.com",
+                "contactNo": "+971 4 887 5555",
+                "pic": "Technical Team",
+                "website": "https://www.emiratestechno.com"
+            },
+            {
+                "subCode": "90FO",
+                "accountName": "JBI PROPERTIES SERVICES COMPANY LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "Delizia.Victoria@SERCO.AE",
+                "contactNo": "+971 4 886 3333",
+                "pic": "Delizia Victoria",
+                "website": "https://www.serco.com"
+            },
+            {
+                "subCode": "90FS",
+                "accountName": "ADOS ENGINEERING INDUSTRIES",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "bijoyj@adosuae.com, renuk@adosuae.com",
+                "contactNo": "+971 4 887 8888",
+                "pic": "Bijoy J, Renuk",
+                "website": "https://www.ados.com"
+            },
+            {
+                "subCode": "90FW",
+                "accountName": "BELGIUM ALUMINIUM & GLASS WORKS FACTORY",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "Gurcharan.Jit@belgiumagi.com",
+                "contactNo": "+971 4 886 2222",
+                "pic": "Gurcharan Jit",
+                "website": "https://www.belgiumagi.com"
+            },
+            {
+                "subCode": "90FZ",
+                "accountName": "SEA POWER MANAGEMENT DMCC",
+                "dept": "MS",
+                "location": "UAE",
+                "email": "info@seapower.ae",
+                "contactNo": "+971 4 887 1111",
+                "pic": "Management Team",
+                "website": "https://www.seapower.ae"
+            },
+            {
+                "subCode": "90GB",
+                "accountName": "AL MAJARRAH EQUIPMENT CO.LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "majarrah.br@eim.ae; majarrah@emirates.net.ae",
+                "contactNo": "02 5544770/02-5597788",
+                "pic": "HO - Shuba/Shafeeq BR - Aseef",
+                "website": "https://www.almajarrah.com"
+            },
+            {
+                "subCode": "90GE",
+                "accountName": "SKM AIRCONDITIONING LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "seetha.lakshmi@skmaircon.com",
+                "contactNo": "971-6-534-7347",
+                "pic": "Seetha",
+                "website": "https://www.skmaircon.com"
+            },
+            {
+                "subCode": "90GG",
+                "accountName": "SARSANWALA TRADING CO. LLC",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "accounts@sarsanwala.com",
+                "contactNo": "04-327 2122",
+                "pic": "Binoy John",
+                "website": "https://www.sarsanwala.com"
+            },
+            {
+                "subCode": "90GJ",
+                "accountName": "WRIST MIDDLE EAST (U.A.E.) LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "dela@dubai.wrist.com",
+                "contactNo": "+971 6 514 7400",
+                "pic": "Desiree",
+                "website": "https://www.wrist.com"
+            },
+            {
+                "subCode": "90GP",
+                "accountName": "CIPRO - AHMED HAMADA & CO.",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@cipro.ae",
+                "contactNo": "+971 4 886 9999",
+                "pic": "Ahmed Hamada",
+                "website": "https://www.cipro.ae"
+            },
+            {
+                "subCode": "90IC",
+                "accountName": "MABANI STEEL L.L.C.",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@mabanisteel.com",
+                "contactNo": "+971 4 887 3333",
+                "pic": "Management",
+                "website": "https://www.mabanisteel.com"
+            },
+            {
+                "subCode": "90IP",
+                "accountName": "FAR EAST HARDWARE AND MACHINERY LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@fareast.ae",
+                "contactNo": "+971 4 886 6666",
+                "pic": "Management Team",
+                "website": "https://www.fareast.ae"
+            },
+            {
+                "subCode": "90IY",
+                "accountName": "AL YARMOUK STEEL AND ENGG. CO. LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@alyarmouksteel.com",
+                "contactNo": "+971 4 887 4444",
+                "pic": "Engineering Team",
+                "website": "https://www.alyarmouksteel.com"
+            },
+            {
+                "subCode": "90IZ",
+                "accountName": "AMANA INDUSTRIES F.Z.E.",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "gigi.amal@amanaindustries.com, abdul.majeed@amanaindustries.com",
+                "contactNo": "06 526 1444",
+                "pic": "Gigi, Abdul Majeed",
+                "website": "https://www.amanaindustries.com"
+            },
+            {
+                "subCode": "90JK",
+                "accountName": "ENGINEERING INDUSTRIAL PRODUCTS FZE",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "moh.khalil@engip.com",
+                "contactNo": "07 243 4836",
+                "pic": "Nafir, Moh Khalil",
+                "website": "https://www.engip.com"
+            },
+            {
+                "subCode": "90JM",
+                "accountName": "ATG (LTD) FZC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@atg.ae",
+                "contactNo": "+971 4 886 8888",
+                "pic": "Management",
+                "website": "https://www.atg.ae"
+            },
+            {
+                "subCode": "90LC",
+                "accountName": "WILLIAM HARE UAE LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "Madeleine.Quibel@hare.com",
+                "contactNo": "Tel: +971-2-5510444",
+                "pic": "Madeleine Quibel",
+                "website": "https://www.hare.com"
+            },
+            {
+                "subCode": "90LH",
+                "accountName": "JBF RAK LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@jbf.ae",
+                "contactNo": "+971 7 204 8888",
+                "pic": "Management",
+                "website": "https://www.jbfrak.com"
+            },
+            {
+                "subCode": "90LU",
+                "accountName": "GALVANIZING SERVICES EST.",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "jagruti@galvserv.com; paresh@galvserv.com",
+                "contactNo": "04 347 0916",
+                "pic": "Perish, Jagruti",
+                "website": "https://www.galvserv.com"
+            },
+            {
+                "subCode": "90ME",
+                "accountName": "CARACAL INTERNATIONAL LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@caracal-international.com",
+                "contactNo": "+971 4 887 7777",
+                "pic": "Management",
+                "website": "https://www.caracal-international.com"
+            },
+            {
+                "subCode": "90MH",
+                "accountName": "OVERSEAS AST CO LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@overseasast.com",
+                "contactNo": "+971 4 886 1111",
+                "pic": "Management",
+                "website": "https://www.overseasast.com"
+            },
+            {
+                "subCode": "90MO",
+                "accountName": "GINCO STEEL LLC",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "info@ginco.ae",
+                "contactNo": "+971 4 887 2222",
+                "pic": "Management",
+                "website": "https://www.ginco.ae"
+            },
+            {
+                "subCode": "C018",
+                "accountName": "CENTURY EQUIPMENTS",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "info@centuryequipments.ae",
+                "contactNo": "+971 4 886 7777",
+                "pic": "Management",
+                "website": "https://www.centuryequipments.ae"
+            },
+            {
+                "subCode": "G809",
+                "accountName": "GLACIERES COUBECHE SARL",
+                "dept": "MS",
+                "location": "FRANCE",
+                "email": "info@glacieres.com",
+                "contactNo": "+33 5 59 01 02 03",
+                "pic": "Management",
+                "website": "https://www.glacieres.com"
+            },
+            {
+                "subCode": "I039",
+                "accountName": "IPC MARINE SERVICES, L.L.C.",
+                "dept": "MS",
+                "location": "USA",
+                "email": "info@ipcmarine.com",
+                "contactNo": "+1 713 621 8888",
+                "pic": "Marine Services Team",
+                "website": "https://www.ipcmarine.com"
+            },
+            {
+                "subCode": "K002",
+                "accountName": "KHIMJI RAMDAS & CO",
+                "dept": "MS",
+                "location": "OMAN",
+                "email": "info@khimjiramdas.com",
+                "contactNo": "+968 24 591 000",
+                "pic": "Management",
+                "website": "https://www.khimjiramdas.com"
+            },
+            {
+                "subCode": "P025",
+                "accountName": "PAN EMIRATES CATERING SERVICES",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "panecs@emirates.net.ae",
+                "contactNo": "+971 4 216 0000",
+                "pic": "Catering Team",
+                "website": "https://www.panemirates.com"
+            },
+            {
+                "subCode": "P038",
+                "accountName": "PUSAN TRADIONG CO. LLC",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "info@pusantrading.ae",
+                "contactNo": "+971 4 886 5555",
+                "pic": "Management",
+                "website": "https://www.pusantrading.ae"
+            },
+            {
+                "subCode": "S003",
+                "accountName": "SARSANWALA TRADING",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "accounts@sarsanwala.com",
+                "contactNo": "04-327 2122",
+                "pic": "Binoy John",
+                "website": "https://www.sarsanwala.com"
+            },
+            {
+                "subCode": "S111",
+                "accountName": "STANDARD FABRICATION & ENG . WORKS",
+                "dept": "IS",
+                "location": "UAE",
+                "email": "stdengg@eim.ae, km3060@stanfab.com, radesh@stanfab.com, arunvas@stanfab.com",
+                "contactNo": "+971 4 887 5555",
+                "pic": "KM3060, Radesh, Arunvas",
+                "website": "https://www.stanfab.com"
+            },
+            {
+                "subCode": "T003",
+                "accountName": "TECHNO MARINE EQUIPT. SERVICES LLC",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "info@technomarine.ae",
+                "contactNo": "+971 4 886 4444",
+                "pic": "Management",
+                "website": "https://www.technomarine.ae"
+            },
+            {
+                "subCode": "Y001",
+                "accountName": "YOUSUF IBRAHIM ABBAS TRADING",
+                "dept": "HSC",
+                "location": "UAE",
+                "email": "info@yiat.ae",
+                "contactNo": "+971 4 886 3333",
+                "pic": "Management",
+                "website": "https://www.yiat.ae"
+            },
+            {
+                "subCode": "11",
+                "accountName": "GULF AGENCY (S) PTE LTD.",
+                "dept": "MS",
+                "location": "SINGAPORE",
+                "email": "info@gulfagency.com",
+                "contactNo": "+65 6542 7777",
+                "pic": "Management",
+                "website": "https://www.gulfagency.com"
+            },
+            {
+                "subCode": "16",
+                "accountName": "SANAI FUJI",
+                "dept": "MS",
+                "location": "JAPAN",
+                "email": "info.san-ai.fuji@bloom.ocn.ne.jp, r.otsu@cosmos.ocn.ne.jp",
+                "contactNo": "+81 3 3501 8888",
+                "pic": "Otsu",
+                "website": "https://www.sanaifuji.co.jp"
+            },
+            {
+                "subCode": "45",
+                "accountName": "FUJI TRADING (MARINE) B.V.",
+                "dept": "MS",
+                "location": "NETHERLANDS",
+                "email": "info@fujitrading.com",
+                "contactNo": "+31 10 295 8888",
+                "pic": "Marine Department",
+                "website": "https://www.fujitrading.com"
+            },
+            {
+                "subCode": "00AA",
+                "accountName": "SEASCAPE INC.",
+                "dept": "MS",
+                "location": "GREECE",
+                "email": "accounts@seascape.gr, glbsupplies@seascape.gr",
+                "contactNo": "T: +30 210 4522610 (ext.102)",
+                "pic": "Vasso",
+                "website": "https://www.seascape.gr"
+            },
+            {
+                "subCode": "409",
+                "accountName": "KRISTIAN GERHARD JEBSEN SKIPSREDERI A/S",
+                "dept": "MS",
+                "location": "DENMARK",
+                "email": "info@jeb-sen.com",
+                "contactNo": "+45 33 11 22 33",
+                "pic": "Management",
+                "website": "https://www.jeb-sen.com"
+            },
+            {
+                "subCode": "550",
+                "accountName": "SOLSTAD SHIPPING AS",
+                "dept": "MS",
+                "location": "NORWAY",
+                "email": "info@solstadsupply.com",
+                "contactNo": "+47 51 50 88 88",
+                "pic": "Management",
+                "website": "https://www.solstadsupply.com"
+            },
+            {
+                "subCode": "802",
+                "accountName": "J. LAURITZEN A/S",
+                "dept": "MS",
+                "location": "DENMARK",
+                "email": "payables@jlau.com, jlpur@jlau.com",
+                "contactNo": "+ 45 3396 8028",
+                "pic": "Majbritt Grathwohl",
+                "website": "https://www.jlau.com"
+            },
+            {
+                "subCode": "809",
+                "accountName": "MAERSK TANKERS A/S",
+                "dept": "MS",
+                "location": "DENMARK",
+                "email": "info@maersk.com",
+                "contactNo": "+45 33 91 88 88",
+                "pic": "Tanker Management",
+                "website": "https://www.maersk.com"
+            },
+            {
+                "subCode": "1022",
+                "accountName": "BLUE STAR SHIP MANAGEMENT B.V.",
+                "dept": "MS",
+                "location": "NETHERLANDS",
+                "email": "info@bluestar-shipping.com",
+                "contactNo": "+31 10 406 8888",
+                "pic": "Management",
+                "website": "https://www.bluestar-shipping.com"
+            },
+            {
+                "subCode": "10HQ",
+                "accountName": "STOLT TANKERS B.V.",
+                "dept": "MS",
+                "location": "PHIL",
+                "email": "info@stolt.net",
+                "contactNo": "+31 10 295 8888",
+                "pic": "Tanker Operations",
+                "website": "https://www.stolt.net"
+            },
+            {
+                "subCode": "10KX",
+                "accountName": "SEACONTRACTORS",
+                "dept": "MS",
+                "location": "NETHERLAND",
+                "email": "accounting@seacontractors.com, Bosschaart@seacontractors.com",
+                "contactNo": "+31 (0)118 410 520",
+                "pic": "Mieneke Bosschaart",
+                "website": "https://www.seacontractors.com"
+            },
+            {
+                "subCode": "1116",
+                "accountName": "CMA SHIPS",
+                "dept": "MS",
+                "location": "FRANCE",
+                "email": "info@cma-cgm.com",
+                "contactNo": "+33 4 91 14 88 88",
+                "pic": "Management",
+                "website": "https://www.cma-cgm.com"
+            },
+            {
+                "subCode": "1203",
+                "accountName": "EXMAR SHIPMANAGEMENT",
+                "dept": "MS",
+                "location": "UK",
+                "email": "accounting.lng@exmar.be, harpreet.kaur@exmar.be, Christine.Van.Puymbroeck@exmar.be",
+                "contactNo": "+32(0)3/247 50 69",
+                "pic": "Harpreet",
+                "website": "https://www.exmar.com"
+            },
+            {
+                "subCode": "1270",
+                "accountName": "INTERNATIONAL FOOD SERVICES NV",
+                "dept": "MS",
+                "location": "BELGIUM",
+                "email": "info@internationalfood.com",
+                "contactNo": "+32 3 247 8888",
+                "pic": "Management",
+                "website": "https://www.internationalfood.com"
+            },
+            {
+                "subCode": "1302",
+                "accountName": "BOURBON OFFSHORE GREENMAR",
+                "dept": "MS",
+                "location": "FRANCE",
+                "email": "info@bourbon.com",
+                "contactNo": "+33 1 47 40 88 88",
+                "pic": "Offshore Management",
+                "website": "https://www.bourbon.com"
+            },
+            {
+                "subCode": "1303",
+                "accountName": "SUISSE-ATLANTIQUE SOCIETE D'NAVIGATION MARITIME SA",
+                "dept": "MS",
+                "location": "ITALY",
+                "email": "INVOICES@SUISAT.COM, technical@suisat.com, jean-dominique.fonjallaz.account@suisat.com, account@suisat.com, raffaella.blundo.crew@suisat.com; guillaume.brera.crew@suisat.com",
+                "contactNo": "+39 010 590 8888",
+                "pic": "Jean-Dominique Fonjallaz",
+                "website": "https://www.suisat.com"
+            },
+            {
+                "subCode": "1356",
+                "accountName": "SINGLE BUOY MOORINGS INC",
+                "dept": "MS",
+                "location": "USA",
+                "email": "info@sbmi.com",
+                "contactNo": "+1 713 621 8888",
+                "pic": "Management",
+                "website": "https://www.sbmi.com"
+            },
+            {
+                "subCode": "1406",
+                "accountName": "TRANSOCEAN MARITIME AGENCIES S.A.M.",
+                "dept": "MS",
+                "location": "UK",
+                "email": "Franck.DEWILDER@transocean.mc, accounting@transocean.mc",
+                "contactNo": "+44 20 7940 8888",
+                "pic": "Christopher Testa",
+                "website": "https://www.transocean.com"
+            },
+            {
+                "subCode": "1436",
+                "accountName": "V. SHIPS LEISURE S.A.",
+                "dept": "MS",
+                "location": "GREECE",
+                "email": "info@vships.com",
+                "contactNo": "+30 210 452 8888",
+                "pic": "Management",
+                "website": "https://www.vships.com"
+            },
+            {
+                "subCode": "1440",
+                "accountName": "COVENT GARDEN SHIPPING CO. C/O GESTION MARITIME",
+                "dept": "MS",
+                "location": "UK",
+                "email": "info@coventgarden.com",
+                "contactNo": "+44 20 7940 7777",
+                "pic": "Management",
+                "website": "https://www.coventgarden.com"
+            },
+            {
+                "subCode": "1546",
+                "accountName": "PORTLINE BULK INTERNATIONAL, S.A",
+                "dept": "MS",
+                "location": "PORTUGAL",
+                "email": "info@portline.com",
+                "contactNo": "+351 21 350 8888",
+                "pic": "Management",
+                "website": "https://www.portline.com"
+            },
+            {
+                "subCode": "1626",
+                "accountName": "JOHANN M.K. BLUMENTHAL GMBH & CO KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "accounting@bluships.com, procurement@bluships.com",
+                "contactNo": "+49 40 8090605-31",
+                "pic": "Management",
+                "website": "https://www.bluships.com"
+            },
+            {
+                "subCode": "1645",
+                "accountName": "OLDENDORFF CARRIERS GMBH & CO. KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "ines.marquardt@oldendorff.com, accounting@eol.ae, kristina.kroeger@oldendorff.com, constanze.von_ohlen@oldendorff.com",
+                "contactNo": "+971 2 642 0367 ext 513",
+                "pic": "Ines Marquardt, Kristina Kroeger",
+                "website": "https://www.oldendorff.com"
+            },
+            {
+                "subCode": "1646",
+                "accountName": "PRONAV SHIP MANAGEMENT GMBH & CO. KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "Ehrhardt@pronav.de, accounting@pronav.de",
+                "contactNo": "0049(0)4037866034",
+                "pic": "Ehrhardt",
+                "website": "https://www.pronav.de"
+            },
+            {
+                "subCode": "1675",
+                "accountName": "BASTE & LANGE GMBH",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "N.Havemann@bastelange.com, u.holzke@bastelange.com, H.Tepel@bastelange.com",
+                "contactNo": "+49 40 78 11 09 - 165",
+                "pic": "Harald Tepel",
+                "website": "https://www.bastelange.com"
+            },
+            {
+                "subCode": "16DC",
+                "accountName": "BRIESE SCHIFFAHRTS GMBH & CO. KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "info@briese.de",
+                "contactNo": "+49 421 3301 8888",
+                "pic": "Management",
+                "website": "https://www.briese.de"
+            },
+            {
+                "subCode": "16DH",
+                "accountName": "BERNHARD SCHULTE SHIPMANAGEMENT(DEUTSCHLAND)GMBH",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "de-smc-accounts-company@bs-shipmanagement.com",
+                "contactNo": "+49 40 822265716",
+                "pic": "Gudrun Schroeder",
+                "website": "https://www.bs-shipmanagement.com"
+            },
+            {
+                "subCode": "16EQ",
+                "accountName": "HANSA SHIPING GMBH & CO.KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "info@hansa-shipping.com",
+                "contactNo": "+49 40 3001 8888",
+                "pic": "Management",
+                "website": "https://www.hansa-shipping.com"
+            },
+            {
+                "subCode": "16FD",
+                "accountName": "RHL REEDERI HAMBURGER LLOYD GmbH & CO KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "info@hamburger-lloyd.de",
+                "contactNo": "+49 40 3290 8888",
+                "pic": "Management",
+                "website": "https://www.hamburger-lloyd.de"
+            },
+            {
+                "subCode": "16FL",
+                "accountName": "RICKMERS REEDEREI GMBH & CIE KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "fleet.accounting@rickmers.com, rsh.fleet1@rickmers.com, k.wiesner@Rickmers.com, C.Regensdorff@Rickmers.com, v.shnurkov@Rickmers.com",
+                "contactNo": "+49 (0)40. 389 177 358",
+                "pic": "Alexander Lehmann",
+                "website": "https://www.rickmers.com"
+            },
+            {
+                "subCode": "16FZ",
+                "accountName": "NORDIC HAMBURG SHIPMANAGEMENT NHSM GmbH & Co. KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "info@nordichamburg.com",
+                "contactNo": "+49 40 3609 8888",
+                "pic": "Management",
+                "website": "https://www.nordichamburg.com"
+            },
+            {
+                "subCode": "16GB",
+                "accountName": "INC INTERORIENT NAVIGATION HAMBURG GMBH & CO. KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "info@interorient.com",
+                "contactNo": "+49 40 3609 8888",
+                "pic": "Management",
+                "website": "https://www.interorient.com"
+            },
+            {
+                "subCode": "16GJ",
+                "accountName": "WALLEM GMBH & CO., KG.",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "germany.accounting@wallem.com, brlu@wallem.com, bboh@wallem.com, DMAK@wallem.com, aklw@wallem.com",
+                "contactNo": "+49 40 3609 8888",
+                "pic": "Management",
+                "website": "https://www.wallem.com"
+            },
+            {
+                "subCode": "16GN",
+                "accountName": "TB MARINE SHIPMANAGEMENT GMBH & CO. KG",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "tb.purchase@tbmarine.de, tb.accounting@tbmarine.de, KathrinDankert@tbmarine.de, SimonKwok@tbmarine.de",
+                "contactNo": "+49 40 3609 8888",
+                "pic": "Kathrin Dankert, Simon Kwok",
+                "website": "https://www.tbmarine.de"
+            },
+            {
+                "subCode": "16HP",
+                "accountName": "DS TANKERS GMBH & CO. KG.",
+                "dept": "MS",
+                "location": "GERMANY",
+                "email": "info@dstankers.com",
+                "contactNo": "+49 40 3609 8888",
+                "pic": "Management",
+                "website": "https://www.dstankers.com"
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const clientsContainer = document.getElementById('clientsContainer');
+            const searchInput = document.getElementById('searchInput');
+            const deptFilter = document.getElementById('deptFilter');
+            const locationFilter = document.getElementById('locationFilter');
+            const outreachFilter = document.getElementById('outreachFilter');
+            const resetFiltersBtn = document.getElementById('resetFilters');
+
+            const totalClientsEl = document.getElementById('totalClients');
+            const msClientsEl = document.getElementById('msClients');
+            const isClientsEl = document.getElementById('isClients');
+            const hosClientsEl = document.getElementById('hosClients');
+
+            let searchTerm = '';
+
+            function highlightText(text, highlight) {
+                if (!text) return '';
+                if (!highlight || !highlight.trim()) {
+                    return text;
+                }
+                const regex = new RegExp(`(${highlight.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+                return text.replace(regex, `<span class="highlight">$1</span>`);
+            }
+
+            function displayClients(filteredClients) {
+                clientsContainer.innerHTML = '';
+
+                if (filteredClients.length === 0) {
+                    clientsContainer.innerHTML = `
+                        <div class="col-12">
+                            <div class="no-results">
+                                <i class="fas fa-search"></i>
+                                <h3>No clients found</h3>
+                                <p>Try adjusting your search or filter criteria.</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filteredClients.forEach(client => {
+                    const deptClass = client.dept ? client.dept.toLowerCase().replace(/\s+/g, '-') : 'default';
+                    const isComplete = client.email && client.contactNo && client.pic && client.website;
+
+                    const card = document.createElement('div');
+                    card.className = 'col-lg-4 col-md-6 mb-4';
+                    card.innerHTML = `
+                        <div class="client-card">
+                            <div class="dept-indicator dept-${deptClass}"></div>
+                            <div class="client-header">
+                                <h3>${highlightText(client.accountName, searchTerm)}</h3>
+                                ${client.subCode ? `<div class="subcode-badge">${highlightText(client.subCode, searchTerm)}</div>` : ''}
+                            </div>
+                            <div class="client-body">
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-user-tie"></i></div>
+                                    <div class="contact-content">
+                                        <div class="contact-label">Person in Charge (PIC)</div>
+                                        <div class="contact-value" ondblclick="copyToClipboard(this)">${client.pic ? highlightText(client.pic, searchTerm) : '<span class="missing-data">Not available</span>'}</div>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                                    <div class="contact-content">
+                                        <div class="contact-label">Email</div>
+                                        <div class="contact-value" ondblclick="copyToClipboard(this)">${client.email ? highlightText(client.email.replace(/;/g, '; '), searchTerm) : '<span class="missing-data">Not available</span>'}</div>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                                    <div class="contact-content">
+                                        <div class="contact-label">Contact Number</div>
+                                        <div class="contact-value" ondblclick="copyToClipboard(this)">${client.contactNo ? highlightText(client.contactNo, searchTerm) : '<span class="missing-data">Not available</span>'}</div>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                                    <div class="contact-content">
+                                        <div class="contact-label">Website</div>
+                                        <div class="contact-value">${client.website ? `<a href="${client.website}" target="_blank" rel="noopener noreferrer">${highlightText(client.website, searchTerm)}</a>` : '<span class="missing-data">Not available</span>'}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="client-footer">
+                                <div>
+                                    <span class="department-tag dept-tag-${deptClass}">${highlightText(client.dept, searchTerm)}</span>
+                                    <span class="location-tag"><i class="fas fa-map-marker-alt me-1"></i>${highlightText(client.location, searchTerm)}</span>
+                                </div>
+                                <div class="info-status">
+                                    ${isComplete ? '<span class="badge bg-success-subtle text-success-emphasis rounded-pill"><i class="fas fa-check-circle me-1"></i>Complete</span>' : '<span class="badge bg-warning-subtle text-warning-emphasis rounded-pill"><i class="fas fa-exclamation-triangle me-1"></i>Missing Info</span>'}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    clientsContainer.appendChild(card);
+                });
+            }
+
+            function updateStats(filteredClients) {
+                totalClientsEl.textContent = filteredClients.length;
+                msClientsEl.textContent = filteredClients.filter(c => c.dept === 'MS').length;
+                isClientsEl.textContent = filteredClients.filter(c => c.dept === 'IS').length;
+                hosClientsEl.textContent = filteredClients.filter(c => c.dept === 'HOS' || c.dept === 'HSC').length;
+            }
+
+            function filterClients() {
+                searchTerm = searchInput.value.toLowerCase();
+                const dept = deptFilter.value;
+                const location = locationFilter.value;
+                const outreach = outreachFilter.value;
+
+                const filtered = clients.filter(client => {
+                    const isComplete = client.email && client.contactNo && client.pic && client.website;
+                    const matchesSearch = searchTerm === '' ||
+                        (client.accountName && client.accountName.toLowerCase().includes(searchTerm)) ||
+                        (client.subCode && String(client.subCode).toLowerCase().includes(searchTerm)) ||
+                        (client.dept && client.dept.toLowerCase().includes(searchTerm)) ||
+                        (client.location && client.location.toLowerCase().includes(searchTerm)) ||
+                        (client.pic && client.pic.toLowerCase().includes(searchTerm));
+
+                    const matchesDept = dept === '' || client.dept === dept;
+                    const matchesLocation = location === '' || client.location === location;
+                    const matchesOutreach = outreach === '' || (outreach === 'complete' && isComplete) || (outreach === 'missing' && !isComplete);
+
+                    return matchesSearch && matchesDept && matchesLocation && matchesOutreach;
+                });
+
+                displayClients(filtered);
+                updateStats(filtered);
+            }
+
+            window.copyToClipboard = function(element) {
+                const textToCopy = element.innerText;
+                if(textToCopy && textToCopy !== 'Not available') {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        const originalText = element.innerHTML;
+                        element.innerHTML = '<i class="fas fa-check-circle me-1"></i> Copied!';
+                        setTimeout(() => {
+                            element.innerHTML = originalText;
+                        }, 1500);
+                    }).catch(err => {
+                        console.error('Failed to copy text: ', err);
+                    });
+                }
+            }
+
+            searchInput.addEventListener('input', filterClients);
+            deptFilter.addEventListener('change', filterClients);
+            locationFilter.addEventListener('change', filterClients);
+            outreachFilter.addEventListener('change', filterClients);
+
+            resetFiltersBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                deptFilter.value = '';
+                locationFilter.value = '';
+                outreachFilter.value = '';
+                searchTerm = '';
+                filterClients();
+            });
+
+            // Initial load
+            filterClients();
+        });
+    </script>
+</body>
+</html>
